@@ -20,3 +20,15 @@ To customize the displayed texts, you only have to change the text strings insid
 |-----------------|------------------------------------|
 | `npm run start` | to start the local dev environment |
 | `npm run build` | to build the production version    |
+
+
+## dockerfile included
+To build this Website use the included Dockerfile:
+
+`docker build -t website-maintenance-container:latest .`
+
+To test this Website use the following command:
+
+`docker run -p 8000:80 website-maintenance-container:latest`
+
+Now open your browser and navigate to `127.0.0.1:8000` to see the website.
