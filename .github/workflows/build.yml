@@ -17,10 +17,11 @@ jobs:
         name: Get next version
         id: get_next_version
         uses: thenativeweb/get-next-version@2.1.2
-          - name: Show the next version
-            run: |
-              echo ${{ steps.get_next_version.outputs.version }}
-              echo ${{ steps.get_next_version.outputs.hasNextVersion }}
+      -
+        name: Show the next version
+        run: |
+          echo ${{ steps.get_next_version.outputs.version }}
+          echo ${{ steps.get_next_version.outputs.hasNextVersion }}
       -
         name: Login to GitHub Container Registry
         uses: docker/login-action@v2
