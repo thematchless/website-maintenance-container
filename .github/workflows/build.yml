@@ -31,7 +31,6 @@ jobs:
           password: ${{ secrets.PAT_TOKEN }}
       -
         name: Publish to GitHub Packages
-        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           push: true
