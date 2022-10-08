@@ -11,6 +11,16 @@ jobs:
       -
         name: Checkout the source code
         uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 0
+      -
+        name: Get next version
+        id: get_next_version
+        uses: thenativeweb/get-next-version@2.1.2
+          - name: Show the next version
+            run: |
+              echo ${{ steps.get_next_version.outputs.version }}
+              echo ${{ steps.get_next_version.outputs.hasNextVersion }}
       -
         name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -20,7 +30,15 @@ jobs:
           password: ${{ secrets.PAT_TOKEN }}
       -
         name: Publish to GitHub Packages
+        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
         uses: docker/build-push-action@v3.1.1
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:latest, ghcr.io/${{ github.repository }}:${{ github.run_number }}
+      -
+        name: Tag version
+        if: ${{ steps.get_next_version.outputs.hasNextVersion == 'true' }}
+        run: |
+          NEXT_VERSION=${{ steps.get_next_version.outputs.version }}
+          git tag $NEXT_VERSION
+          git push origin $NEXT_VERSION
